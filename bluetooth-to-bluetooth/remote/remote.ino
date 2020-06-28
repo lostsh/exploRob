@@ -1,3 +1,11 @@
+/*
+ * Note a moi même :
+ * penser a ajouter l'affichage de l'ecrant
+ * sur l'ecrant on aura plusieurs modes 
+ * avec plusieurs vitesses, un omde de pressision et un mode de franchissenement
+ * ensuite on pourra affichier l'êtat de la battierie sur l'ecrant
+ * et enfin si possible l'etat du signal bluetooth
+*/
 #include <SoftwareSerial.h>
 SoftwareSerial btSerial(2, 3);
 char c=' ';
