@@ -15,19 +15,18 @@ boolean NL = true;
 
 void setup(){
     Serial.begin(9600);
+
+    //OLED 128x32 configuration
+    oledConf();
+    
     btSerial.begin(9600);  
     Serial.println("btSerial started at 9600");
     connecTo("AT+CON90E2028DDAFC");
-
-    //OLED conf
-    // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-    if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3C for 128x32
-      Serial.println(F("SSD1306 allocation failed"));
-      for (;;); // Don't proceed, loop forever
+    if(btSerial.readString().indexOf("CONNA")>-1){
+      oledPrint("Connection OK");
+    }else{
+      oledPrint("Connection Failed");
     }
-    display.display();
-    delay(2000);
-    display.clearDisplay();
 }
 
 void loop(){
