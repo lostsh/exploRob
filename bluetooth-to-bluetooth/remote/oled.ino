@@ -4,6 +4,9 @@ void oledPrint(char* text){
 void oledPrint(char* text, bool clearDisplay){
   oledPrint(text, clearDisplay, 0, 0);
 }
+void oledPrint(char* text, int x, int y){
+  oledPrint(text, true, x, y);
+}
 void oledPrint(char* text, bool clearDisplay, int x, int y){
     if(clearDisplay){
     display.clearDisplay();
