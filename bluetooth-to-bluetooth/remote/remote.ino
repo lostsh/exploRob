@@ -10,11 +10,20 @@
 SoftwareSerial btSerial(2, 3);
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-char c=' ';
-boolean NL = true;
+//char c=' ';
+//boolean NL = true;
+
+const unsigned int xPin = A2;
+const unsigned int yPin = A3;
+unsigned int init_value;
 
 void setup(){
     Serial.begin(9600);
+
+    //Joistick
+    pinMode(xPin, INPUT);
+    pinMode(yPin, INPUT);
+    init_value = (analogRead(xPin)+analogRead(yPin))/2;
 
     //OLED 128x32 configuration
     oledConf();
@@ -27,9 +36,27 @@ void setup(){
     }else{
       oledPrint("Connection Failed");
     }
+    delay(1000);
+    display.clearDisplay();
 }
 
+int val(int pinNumer){
+  return (analogRead(pinNumer)-init_value);
+}
+
+unsigned int mode = 0;
 void loop(){
+  switch(mode){
+    case 1:
+    oledPrint("You are now in drive mode");
+    delay(500);
+    mode = 0;
+    break;
+    default:
+    mode = menu(&mode);
+    break;
+  }
+  /*
     if (btSerial.available()){
         c = btSerial.read();
         Serial.write(c);
@@ -45,6 +72,8 @@ void loop(){
         Serial.write(c);
         if (c==10) { NL = true; }
     }
+    */
+    /*
     if(digitalRead(A0)){
       btSerial.print("a");
       oledPrint("Avence");
@@ -55,4 +84,5 @@ void loop(){
       oledPrint("Stop");
       delay(250);
     }
+    */
 }

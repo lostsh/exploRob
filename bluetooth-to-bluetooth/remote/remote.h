@@ -10,3 +10,19 @@
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 32
 #define OLED_RESET 4 // SDA - Arduino pin
+
+/*
+I use prototypes of function on the wront header file I know it and that's all
+*/
+
+//============prototypes===============
+//oled
+void oledConf();
+void oledPrint(char*);
+void oledPrint(char*, bool);
+void oledPrint(char*, int, int);
+void oledPrint(char*, bool, int, int);
+//menu
+int menu(int*);
+void box(int);
+void box(int, int, int, int);
