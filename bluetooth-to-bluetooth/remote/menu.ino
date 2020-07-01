@@ -25,18 +25,34 @@ int mainMenu(){
   delay(200);
   return mode;
 }
-void driveMenu(){
-  oledPrint("driving Menu");
+void driveMenu(int *mode){
+  oled("driving Menu", true, 0, 0);
+  char xVal[10];
+  sprintf(xVal, "X : %d", val(xPin));
+  oled(xVal, false,0,11);
+  char yVal[10];
+  sprintf(yVal, "Y : %d", val(yPin));
+  oled(yVal, false,0,22);
+  display.display();
+  if(digitalRead(A0)){
+    *mode=0;
+    delay(200);
+  }
 }
-void setingMenu(){
+void setingMenu(int* mode){
   oledPrint("Settings");
+  delay(800);
+  *mode = 0;
 }
 
 int menu(int *mode){
   display.clearDisplay();
   switch(*mode){
     case 1:
-    driveMenu();
+    driveMenu(mode);
+    break;
+    case 2:
+    setingMenu(mode);
     break;
     default:
     *mode = mainMenu();

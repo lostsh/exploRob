@@ -8,7 +8,7 @@ void oledPrint(char* text, int x, int y){
   oledPrint(text, true, x, y);
 }
 void oledPrint(char* text, bool clearDisplay, int x, int y){
-    if(clearDisplay){
+  if(clearDisplay){
     display.clearDisplay();
   }
   display.setTextSize(1);
@@ -16,6 +16,15 @@ void oledPrint(char* text, bool clearDisplay, int x, int y){
   display.setCursor(x,y);
   display.println(text);
   display.display();
+}
+void oled(char* text, bool clearDisplay, int x, int y){
+  if(clearDisplay){
+    display.clearDisplay();
+  }
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(x,y);
+  display.println(text);
 }
 
 void oledConf(){

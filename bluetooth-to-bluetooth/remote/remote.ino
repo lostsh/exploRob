@@ -48,9 +48,11 @@ unsigned int mode = 0;
 void loop(){
   switch(mode){
     case 1:
+    /*
     oledPrint("You are now in drive mode");
     delay(500);
-    mode = 0;
+    */
+    mode = menu(&mode);
     break;
     default:
     mode = menu(&mode);
