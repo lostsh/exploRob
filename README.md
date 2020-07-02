@@ -1,4 +1,4 @@
-# exploRob
+# ExploRob
 *Is a crossing and exploration robot based on Arduino and Raspberry PI.*
 
 The final version will be able to transmit live video, as well as make optimized decisions based on the data obtained from the on-board sensors, in addition it will have various backup functions, such as for example in the event of a power supply problem. in vegetative mode.

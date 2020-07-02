@@ -22,7 +22,8 @@ void oledPrint(char*);
 void oledPrint(char*, bool);
 void oledPrint(char*, int, int);
 void oledPrint(char*, bool, int, int);
+void oled(char*, bool, int, int);
 //menu
-int menu(int*);
+void menu(int*);
 void box(int);
 void box(int, int, int, int);

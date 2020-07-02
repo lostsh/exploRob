@@ -27,12 +27,9 @@ int mainMenu(){
 }
 void driveMenu(int *mode){
   oled("driving Menu", true, 0, 0);
-  char xVal[10];
-  sprintf(xVal, "X : %d", val(xPin));
-  oled(xVal, false,0,11);
-  char yVal[10];
-  sprintf(yVal, "Y : %d", val(yPin));
-  oled(yVal, false,0,22);
+  char values[10];
+  sprintf(values, "X : %d\nY : %d", val(xPin),val(yPin));
+  oled(values, false,0,11);
   display.display();
   if(digitalRead(A0)){
     *mode=0;
@@ -45,7 +42,7 @@ void setingMenu(int* mode){
   *mode = 0;
 }
 
-int menu(int *mode){
+void menu(int *mode){
   display.clearDisplay();
   switch(*mode){
     case 1:
@@ -59,7 +56,6 @@ int menu(int *mode){
     Serial.println(*mode);
     break;
   }
-  return *mode;
 }
 
 /*=======Graphical things that allow the menu to be a bit less ugly=======*/

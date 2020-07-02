@@ -17,6 +17,7 @@ void oledPrint(char* text, bool clearDisplay, int x, int y){
   display.println(text);
   display.display();
 }
+/*Do the same thing but without the display.display();*/
 void oled(char* text, bool clearDisplay, int x, int y){
   if(clearDisplay){
     display.clearDisplay();
