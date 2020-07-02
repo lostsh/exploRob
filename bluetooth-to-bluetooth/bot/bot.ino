@@ -1,6 +1,12 @@
 #include <SoftwareSerial.h>
 SoftwareSerial btSerial(7, 8);
 
+void moove(int, int);
+
+/* Motor B : Left Motor
+ * Motor A : Right Motor
+ */
+
 void setup() {
   btSerial.begin(9600);
   //Motor A
@@ -22,41 +28,31 @@ void loop(){
     btSerial.print("[+] ");
     btSerial.println(incoming);
   }
-  
+  moove(motorPower[0], motorPower[1]);
 }
 
-/* a driot c'est a droite et a gache c'est a gauceh 
- * si c'est une valeur negative alors on recule sinon on avence
- * point finnale c'est tout rien de plus simple
- */
-
+void leftMotor(int value){
+  if(value!=0){
+    bool forwardDirection = (value>0);
+    digitalWrite(13, forwardDirection);
+    digitalWrite(8, LOW);
+    analogWrite(11, abs(value));
+  }else{
+    digitalWrite(8, HIGH);
+  }
+}
+void rightMotor(int value){
+  if(value!=0){
+    bool forwardDirection = (value>0);
+    digitalWrite(12, forwardDirection);
+    digitalWrite(9, LOW);
+    analogWrite(3, abs(value));
+  }else{
+    digitalWrite(9, HIGH);
+  }
+}
 
 void moove(int lPow, int rPow){
-  avence(lPow, rPow);
-}
-
-void avence(int leftPower, int rightPower){
-  //btSerial.write("[*] Avence\n");
-  digitalWrite(12, HIGH);// forward direction
-  digitalWrite(9, LOW);// disable brake
-  analogWrite(3, abs(leftPower));// full speed
-  
-  digitalWrite(13, HIGH);
-  digitalWrite(8, LOW);
-  analogWrite(11, abs(rightPower));
-}
-void recule(){
-  //btSerial.write("[*] Recule\n");
-  digitalWrite(12, LOW);
-  digitalWrite(9, LOW);
-  analogWrite(3, 255);
-  
-  digitalWrite(13, LOW);
-  digitalWrite(8, LOW);
-  analogWrite(11, 255);
-}
-void arret(){
-  //btSerial.write("[*] Stop\n");
-  digitalWrite(9, HIGH);//Brake A
-  digitalWrite(8, HIGH);//Brake B
+  leftMotor(lPow);
+  rightMotor(rPow);
 }

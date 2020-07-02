@@ -49,9 +49,6 @@ void masterOperator(int xValue, int yValue){
       rightPower -= maper(yValue);
     }
   }
-  char a[64];
-  sprintf(a, "L Motor: %d\nR Motor: %d", leftPower, rightPower);
-  Serial.println(a);
   char b[16];
   sprintf(b, "L: %d", leftPower);
   oled(b, false, 70, 10);
