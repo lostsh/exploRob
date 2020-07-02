@@ -1,22 +1,8 @@
 #include <SoftwareSerial.h>
 SoftwareSerial btSerial(7, 8);
 
-String incoming;
-
-/*
- * Note a moi même :
- * après on recevre deux valeur séparés par une virgule
- * qui représenterone respectivement la vitesse du moteur1, moteur2
- * et donc une vitesse negative signifiera que le moteur recule
- * et positive qu'il devra avancer
- * 
- * il faudra penser a maper et a borner ses valeures
-*/
-
 void setup() {
   btSerial.begin(9600);
-  incoming = "s";
-  
   //Motor A
   pinMode(12, OUTPUT);
   pinMode(9, OUTPUT);
@@ -25,36 +11,39 @@ void setup() {
   pinMode(8, OUTPUT);
   btSerial.write("[*] Seems to be ok then start !\n");
 }
+
+int motorPower[2];
 void loop(){
   if(btSerial.available() > 0){
-    incoming = btSerial.readString();
+    String incoming = btSerial.readString();
+    String powers[2] = strtok(incoming, ',');
+    motorPower[0] = atoi(powers[0]);
+    motorPower[1] = atoi(posers[1]);
     btSerial.print("[+] ");
     btSerial.println(incoming);
   }
   
-  if(incoming == "a"){
-    avence();
-  }
-  if(incoming == "r"){
-    recule();
-  }
-  if(incoming == "s"){
-    arret();
-  }
-  if(incoming != "a" && incoming != "r" && incoming != "s"){
-    arret();
-  }
 }
 
-void avence(){
+/* a driot c'est a droite et a gache c'est a gauceh 
+ * si c'est une valeur negative alors on recule sinon on avence
+ * point finnale c'est tout rien de plus simple
+ */
+
+
+void moove(int lPow, int rPow){
+  avence(lPow, rPow);
+}
+
+void avence(int leftPower, int rightPower){
   //btSerial.write("[*] Avence\n");
   digitalWrite(12, HIGH);// forward direction
   digitalWrite(9, LOW);// disable brake
-  analogWrite(3, 255);// full speed
+  analogWrite(3, abs(leftPower));// full speed
   
   digitalWrite(13, HIGH);
   digitalWrite(8, LOW);
-  analogWrite(11, 255);
+  analogWrite(11, abs(rightPower));
 }
 void recule(){
   //btSerial.write("[*] Recule\n");
