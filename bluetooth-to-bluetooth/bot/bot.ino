@@ -9,6 +9,8 @@ void moove(int, int);
 
 void setup() {
   btSerial.begin(9600);
+  Serial.begin(9600);
+  Serial.println("Start");
   //Motor A
   pinMode(12, OUTPUT);
   pinMode(9, OUTPUT);
@@ -22,11 +24,14 @@ int motorPower[2];
 void loop(){
   if(btSerial.available() > 0){
     String incoming = btSerial.readString();
-    String powers[2] = strtok(incoming, ',');
-    motorPower[0] = atoi(powers[0]);
-    motorPower[1] = atoi(posers[1]);
-    btSerial.print("[+] ");
-    btSerial.println(incoming);
+    int indexComma = incoming.indexOf(',');
+    motorPower[0] = incoming.substring(0, indexComma).toInt();
+    motorPower[1] = incoming.substring(indexComma+1, incoming.length()).toInt();
+
+    char a[128];
+    sprintf(a, "[*] Inco :%s\n[+] LPow(B): %d\n[+] RPow(A): %d",incoming,motorPower[0],motorPower[1]);
+    btSerial.println(a);
+    Serial.println(a);
   }
   moove(motorPower[0], motorPower[1]);
 }

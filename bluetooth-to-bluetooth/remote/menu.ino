@@ -36,6 +36,7 @@ void driveMenu(int *mode){
     *mode=0;
     delay(200);
   }
+  delay(100);//POURRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRLEEEEEEEEEEEEEEEEEEEEEEETTTTTTTTTESSSSSSSSSSSTTTTTTTT
 }
 void setingMenu(int* mode){
   oledPrint("Settings");
