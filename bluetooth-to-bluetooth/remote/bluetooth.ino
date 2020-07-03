@@ -10,8 +10,8 @@ void connecTo(char *moduleName){
  *  Values beetwin 0 and 255
  */
 void btSend(int left, int right){
-  char values[24];
-  sprintf(values, "%d,%d", left, right);
+  char values[64];
+  sprintf(values, "%d,%d;", left, right);
   btSerial.println(values);
   Serial.println(values);
 }

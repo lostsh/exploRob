@@ -17,23 +17,39 @@ void setup() {
   //Motor B
   pinMode(13, OUTPUT);
   pinMode(8, OUTPUT);
-  btSerial.write("[*] Seems to be ok then start !\n");
+  //btSerial.write("[*] Seems to be ok then start !\n");
+  //brake
+  digitalWrite(9, HIGH);
+  digitalWrite(8, HIGH);
+  moove(0, 0);
 }
 
 int motorPower[2];
 void loop(){
-  if(btSerial.available() > 0){
-    String incoming = btSerial.readString();
-    int indexComma = incoming.indexOf(',');
-    motorPower[0] = incoming.substring(0, indexComma).toInt();
-    motorPower[1] = incoming.substring(indexComma+1, incoming.length()).toInt();
+  parsePower(motorPower);
+  
+  Serial.print("\nLeft :");
+  Serial.println(motorPower[0]);
+  Serial.print("Right : ");
+  Serial.println(motorPower[1]);
 
-    char a[128];
-    sprintf(a, "[*] Inco :%s\n[+] LPow(B): %d\n[+] RPow(A): %d",incoming,motorPower[0],motorPower[1]);
-    btSerial.println(a);
-    Serial.println(a);
-  }
   moove(motorPower[0], motorPower[1]);
+}
+
+void parsePower(int* tab){
+  String data = "";
+  while(btSerial.available()){
+    char c = btSerial.read();
+    if(c==';'){
+      break;
+    }
+    data+=c;
+  }
+  if(data.length()>0){
+    int indexComma = data.indexOf(',');
+    tab[0] = data.substring(0, indexComma).toInt();
+    tab[1] = data.substring(indexComma+1, data.length()).toInt();
+  }
 }
 
 void leftMotor(int value){
