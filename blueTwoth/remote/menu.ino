@@ -30,7 +30,8 @@ void driveMenu(int *mode){
   char values[10];
   sprintf(values, "X: %d\nY: %d", val(xPin),val(yPin));
   oled(values, false,0,11);
-  masterOperator(val(yPin), val(xPin));
+  //masterOperator(val(yPin), val(xPin));
+  masterOperator();
   display.display();
   if(digitalRead(A0)){
     *mode=0;

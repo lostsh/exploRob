@@ -15,6 +15,9 @@ void btSend(int left, int right){
   btSerial.println(values);
   Serial.println(values);
 }
+void btSend(Data *dta){
+  btSerial.write((char*)dta, sizeof(*dta));
+}
 
 int maper(int value){
   return map(value, -512, 512, -255, 255);
@@ -25,14 +28,19 @@ int maper(int value){
  * Take the values of the joistick from
  * X and Y axis
  */
+void masterOperator(){
+  if(datas.xPot != val(xPin)){
+    datas.xPot = val(xPin);
+  }
+  if(datas.yPot != val(yPin)){
+    datas.yPot = val(yPin);
+  }
+  btSend(&datas);
+}
 void masterOperator(int xValue, int yValue){
   int leftPower = 0;
   int rightPower = 0;
-  /*
-  if(yValue>4 && -4>yValue){
-    leftPower = map(xValue, -512, 512, -255, 255);
-    rightPower = leftPower;
-  }*/
+  
   leftPower = map(xValue, -512, 512, -255, 255);
   rightPower = leftPower;
   

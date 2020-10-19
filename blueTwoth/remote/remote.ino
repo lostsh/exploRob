@@ -17,6 +17,8 @@ const unsigned int xPin = A2;
 const unsigned int yPin = A3;
 unsigned int init_value;
 
+Data datas;
+
 void setup(){
     Serial.begin(9600);
 

@@ -1,5 +1,9 @@
-struct Data {
-  byte Xpot;
-  byte Ypot;
+typedef struct {
+  int yPot;
+  int xPot;
   byte btn;
-} typedef Data;
+} Data;
+
+void moove(int, int);
+void readData(Data* dta, unsigned long *tNow, unsigned long *tLast);
+void resetData(Data *dta);

@@ -2,8 +2,9 @@
 #include <SoftwareSerial.h>
 SoftwareSerial btSerial(7, 8);
 
-void moove(int, int);
-void readData(Data*);
+Data *datas;
+unsigned long nowTime = 0;
+unsigned long lastReceptionTime = 0;
 
 /* Motor B : Left Motor
  * Motor A : Right Motor
@@ -24,15 +25,14 @@ void setup() {
   digitalWrite(9, HIGH);
   digitalWrite(8, HIGH);
   moove(0, 0);
+  resetData(datas);
 }
 
 int motorPower[2];
 
-Data *datas;
-
 void loop(){
   //parsePower(motorPower);
-  readData(datas);
+  readData(datas, &nowTime, &lastReceptionTime);
   
   Serial.print("\nLeft :");
   //Serial.println(datas->leftPow);
@@ -42,9 +42,15 @@ void loop(){
   moove(motorPower[0], motorPower[1]);
 }
 
-void readData(Data* dta){
+void readData(Data* dta, unsigned long *currentTime, unsigned long *lastReceptionTime){
+  currentTime = millis();
+  if(currentTime-lastReceptionTime > 800){
+    resetData(dta);
+  }
+  
   if(btSerial.available()){
-    //btSerial.readBytes(dta, sizeof(*dta))
+    btSerial.readBytes((char*)dta, sizeof(*dta));
+    *lastReceptionTime = millis();
   }
 }
 
@@ -88,4 +94,10 @@ void rightMotor(int value){
 void moove(int lPow, int rPow){
   leftMotor(lPow);
   rightMotor(rPow);
+}
+
+void resetData(Data *dta){
+  dta->xPot = 0;
+  dta->yPot = 0;
+  //dta->btn = 0;
 }

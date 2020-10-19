@@ -11,6 +11,12 @@
 #define SCREEN_HEIGHT 32
 #define OLED_RESET 4 // SDA - Arduino pin
 
+typedef struct {
+  int xPot;
+  int yPot;
+  byte btn;
+} Data;
+
 /*
 I use prototypes of function on the wront header file I know it and that's all
 */
