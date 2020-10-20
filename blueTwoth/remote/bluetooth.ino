@@ -29,11 +29,11 @@ int maper(int value){
  * X and Y axis
  */
 void masterOperator(){
-  if(datas.xPot != val(xPin)){
-    datas.xPot = val(xPin);
+  if(datas.xPot != maper(val(xPin))){
+    datas.xPot = maper(val(xPin));
   }
-  if(datas.yPot != val(yPin)){
-    datas.yPot = val(yPin);
+  if(datas.yPot != maper(val(yPin))){
+    datas.yPot = maper(val(yPin));
   }
   btSend(&datas);
 }

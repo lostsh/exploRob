@@ -4,6 +4,6 @@ typedef struct {
   byte btn;
 } Data;
 
-void moove(int, int);
+void moove(Data*);
 void readData(Data* dta, unsigned long *tNow, unsigned long *tLast);
 void resetData(Data *dta);

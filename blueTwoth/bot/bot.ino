@@ -24,22 +24,19 @@ void setup() {
   //brake
   digitalWrite(9, HIGH);
   digitalWrite(8, HIGH);
-  moove(0, 0);
   resetData(datas);
 }
 
-int motorPower[2];
-
 void loop(){
-  //parsePower(motorPower);
   readData(datas, &nowTime, &lastReceptionTime);
   
-  Serial.print("\nLeft :");
-  //Serial.println(datas->leftPow);
-  Serial.print("Right : ");
-  //Serial.println(datas->rightPow);
+  Serial.print("\nXpot val : [");
+  Serial.println(datas->xPot);
+  Serial.print("] yPot val : [");
+  Serial.print(datas->yPot);
+  Serial.println("]");
 
-  moove(motorPower[0], motorPower[1]);
+  moove(datas);
 }
 
 void readData(Data* dta, unsigned long *currentTime, unsigned long *lastReceptionTime){
@@ -51,22 +48,6 @@ void readData(Data* dta, unsigned long *currentTime, unsigned long *lastReceptio
   if(btSerial.available()){
     btSerial.readBytes((char*)dta, sizeof(*dta));
     *lastReceptionTime = millis();
-  }
-}
-
-void parsePower(int* tab){
-  String data = "";
-  while(btSerial.available()){
-    char c = btSerial.read();
-    if(c==';'){
-      break;
-    }
-    data+=c;
-  }
-  if(data.length()>0){
-    int indexComma = data.indexOf(',');
-    tab[0] = data.substring(0, indexComma).toInt();
-    tab[1] = data.substring(indexComma+1, data.length()).toInt();
   }
 }
 
@@ -91,7 +72,24 @@ void rightMotor(int value){
   }
 }
 
-void moove(int lPow, int rPow){
+void moove(Data *dt){
+  int lPow = dt->yPot;
+  int rPow = dt->yPot;
+  //Converting the potentino values to a motor power
+  if(dt->yPot>0){
+    if(dt->xPot>0){
+      rPow-=dt->xPot;
+    }else{
+      lPow-=abs(dt->xPot);
+    }
+  }else{//mooving backward
+    if(dt->xPot>0){
+      rPow+=abs(dt->xPot);
+    }else{
+      lPow+=abs(dt->xPot);
+    }
+  }
+  //send values to motors
   leftMotor(lPow);
   rightMotor(rPow);
 }
