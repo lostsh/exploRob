@@ -16,7 +16,13 @@ void btSend(int left, int right){
   Serial.println(values);
 }
 void btSend(Data *dta){
-  btSerial.write((char*)dta, sizeof(*dta));
+  Serial.println("[+] Sending datas");
+  //btSerial.write((const char*)dta, sizeof(*dta));
+  String out = "";
+  out += String(dta->yPot)+','+String(dta->xPot)+";";
+  btSerial.print(out);
+  Serial.println(out);
+  delay(100);//ATTTTTTTTTTTTTTTENNNNNNNNNNNNTTTIONNNNNNNNN DELLAY
 }
 
 int maper(int value){

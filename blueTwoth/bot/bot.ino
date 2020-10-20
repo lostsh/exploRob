@@ -31,12 +31,25 @@ void loop(){
   readData(datas, &nowTime, &lastReceptionTime);
   
   Serial.print("\nXpot val : [");
-  Serial.println(datas->xPot);
+  Serial.print(datas->xPot);
   Serial.print("] yPot val : [");
   Serial.print(datas->yPot);
   Serial.println("]");
 
   moove(datas);
+}
+
+String readBtSerial(){
+  String inco;
+  while(btSerial.available()){
+    char c = btSerial.read();
+    if(c==';'){
+      break;
+    }
+    inco+=c;
+  }
+  Serial.println(inco);
+  return inco;
 }
 
 void readData(Data* dta, unsigned long *currentTime, unsigned long *lastReceptionTime){
@@ -46,7 +59,13 @@ void readData(Data* dta, unsigned long *currentTime, unsigned long *lastReceptio
   }
   
   if(btSerial.available()){
-    btSerial.readBytes((char*)dta, sizeof(*dta));
+    Serial.print("[+] Data Reception : ");
+    //btSerial.readBytes((char*)dta, sizeof(*dta));
+    String incoming = readBtSerial();//btSerial.readString();
+    Serial.print(incoming);
+    dta->yPot = incoming.substring(0,incoming.indexOf(",")).toInt();
+    dta->xPot = incoming.substring(incoming.indexOf(",")+1, incoming.indexOf(";")).toInt();
+    Serial.println((char*)dta);
     *lastReceptionTime = millis();
   }
 }
