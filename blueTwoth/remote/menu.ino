@@ -27,10 +27,9 @@ int mainMenu(){
 }
 void driveMenu(int *mode){
   oled("Driving Menu", true, 0, 0);
-  char values[10];
-  sprintf(values, "X: %d\nY: %d", val(xPin),val(yPin));
+  char values[24];
+  sprintf(values, "xPot: %d\nyPot: %d", maper(val(xPin)), maper(val(yPin)));
   oled(values, false,0,11);
-  //masterOperator(val(yPin), val(xPin));
   masterOperator();
   display.display();
   if(digitalRead(A0)){

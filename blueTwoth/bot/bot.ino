@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 SoftwareSerial btSerial(7, 8);
 
-Data *datas;
+Data *datas = NULL;
 unsigned long nowTime = 0;
 unsigned long lastReceptionTime = 0;
 
@@ -24,48 +24,44 @@ void setup() {
   //brake
   digitalWrite(9, HIGH);
   digitalWrite(8, HIGH);
+  
+  datas = malloc(sizeof(Data));
   resetData(datas);
 }
 
 void loop(){
   readData(datas, &nowTime, &lastReceptionTime);
-  
-  Serial.print("\nXpot val : [");
-  Serial.print(datas->xPot);
-  Serial.print("] yPot val : [");
-  Serial.print(datas->yPot);
-  Serial.println("]");
+    
+  printData(datas);
 
   moove(datas);
 }
 
 String readBtSerial(){
   String inco;
-  while(btSerial.available()){
+  bool dataEnd = false;
+  while(btSerial.available() && !dataEnd){
     char c = btSerial.read();
-    if(c==';'){
-      break;
-    }
     inco+=c;
+    dataEnd = (c==';');
   }
-  Serial.println(inco);
+  //Serial.print("[*] readBtSerial String : ");
+  //Serial.println(inco);
   return inco;
 }
 
 void readData(Data* dta, unsigned long *currentTime, unsigned long *lastReceptionTime){
   currentTime = millis();
   if(currentTime-lastReceptionTime > 800){
-    resetData(dta);
+    //resetData(dta);
   }
   
   if(btSerial.available()){
     Serial.print("[+] Data Reception : ");
-    //btSerial.readBytes((char*)dta, sizeof(*dta));
-    String incoming = readBtSerial();//btSerial.readString();
-    Serial.print(incoming);
+    String incoming = readBtSerial();
     dta->yPot = incoming.substring(0,incoming.indexOf(",")).toInt();
     dta->xPot = incoming.substring(incoming.indexOf(",")+1, incoming.indexOf(";")).toInt();
-    Serial.println((char*)dta);
+    printData(dta);
     *lastReceptionTime = millis();
   }
 }
@@ -116,5 +112,12 @@ void moove(Data *dt){
 void resetData(Data *dta){
   dta->xPot = 0;
   dta->yPot = 0;
-  //dta->btn = 0;
+  dta->btn = 0;
+}
+void printData(Data *dta){
+  Serial.print("[*] Data : yPot [");
+  Serial.print(dta->yPot);
+  Serial.print("] xPot [");
+  Serial.print(dta->xPot);
+  Serial.println("]");
 }

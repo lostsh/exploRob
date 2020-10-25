@@ -10,9 +10,6 @@
 SoftwareSerial btSerial(2, 3);
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-//char c=' ';
-//boolean NL = true;
-
 const unsigned int xPin = A2;
 const unsigned int yPin = A3;
 unsigned int init_value;
