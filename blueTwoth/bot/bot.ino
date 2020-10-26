@@ -92,13 +92,13 @@ void moove(Data *dt){
   int rPow = dt->yPot;
   //Converting the potentino values to a motor power
   if(dt->yPot>0){
-    if(dt->xPot>0){
-      rPow-=dt->xPot;
+    if(dt->xPot<0){
+      rPow-=abs(dt->xPot);
     }else{
       lPow-=abs(dt->xPot);
     }
-  }else{//mooving backward
-    if(dt->xPot>0){
+  }else if(dt->yPot<-1){//mooving backward
+    if(dt->xPot<0){
       rPow+=abs(dt->xPot);
     }else{
       lPow+=abs(dt->xPot);
